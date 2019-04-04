@@ -1074,6 +1074,19 @@ module FusionAuth
     end
 
     #
+    # Retrieves a single event log for the given Id.
+    #
+    # @param event_log_id [Numeric] The Id of the event log to retrieve.
+    # @return [FusionAuth::ClientResponse] The ClientResponse object.
+    #
+    def retrieve_event_log(event_log_id)
+      start.uri('/api/system/event-log')
+           .url_segment(event_log_id)
+           .get()
+           .go()
+    end
+
+    #
     # Retrieves the group for the given Id.
     #
     # @param group_id [string] The Id of the group.
