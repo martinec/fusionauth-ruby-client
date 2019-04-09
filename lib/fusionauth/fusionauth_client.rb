@@ -1235,6 +1235,19 @@ module FusionAuth
     end
 
     #
+    # Retrieves all of the lambdas for the provided type.
+    #
+    # @param type [OpenStruct, Hash] The type of the lambda to return.
+    # @return [FusionAuth::ClientResponse] The ClientResponse object.
+    #
+    def retrieve_lambdas_by_type(type)
+      start.uri('/api/lambda')
+           .url_parameter('type', type)
+           .get()
+           .go()
+    end
+
+    #
     # Retrieves the login report between the two instants. If you specify an application id, it will only return the
     # login counts for that application.
     #
