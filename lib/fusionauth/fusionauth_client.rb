@@ -451,6 +451,19 @@ module FusionAuth
     end
 
     #
+    # Deletes the key for the given Id.
+    #
+    # @param key_od [string] The Id of the key to delete.
+    # @return [FusionAuth::ClientResponse] The ClientResponse object.
+    #
+    def delete_key(key_od)
+      start.uri('/api/key')
+           .url_segment(key_od)
+           .delete()
+           .go()
+    end
+
+    #
     # Deletes the lambda for the given Id.
     #
     # @param lambda_id [string] The Id of the lambda to delete.
@@ -632,6 +645,21 @@ module FusionAuth
     end
 
     #
+    # Generate a new RSA or EC key pair or an HMAC secret.
+    #
+    # @param key_id [string] (Optional) The Id for the key. If not provided a secure random UUID will be generated.
+    # @param request [OpenStruct, Hash] The request object that contains all of the information used to create the key.
+    # @return [FusionAuth::ClientResponse] The ClientResponse object.
+    #
+    def generate_key(key_id, request)
+      start.uri('/api/key/generate')
+           .url_segment(key_id)
+           .body_handler(FusionAuth::JSONBodyHandler.new(request))
+           .post()
+           .go()
+    end
+
+    #
     # Generate a new Application Registration Verification Id to be used with the Verify Registration API. This API will not attempt to send an
     # email to the User. This API may be used to collect the verificationId for use with a third party system.
     #
@@ -686,6 +714,21 @@ module FusionAuth
     #
     def identity_provider_login(request)
       start.uri('/api/identity-provider/login')
+           .body_handler(FusionAuth::JSONBodyHandler.new(request))
+           .post()
+           .go()
+    end
+
+    #
+    # Import an existing RSA or EC key pair or an HMAC secret.
+    #
+    # @param key_id [string] (Optional) The Id for the key. If not provided a secure random UUID will be generated.
+    # @param request [OpenStruct, Hash] The request object that contains all of the information used to create the key.
+    # @return [FusionAuth::ClientResponse] The ClientResponse object.
+    #
+    def import_key(key_id, request)
+      start.uri('/api/key/import')
+           .url_segment(key_id)
            .body_handler(FusionAuth::JSONBodyHandler.new(request))
            .post()
            .go()
@@ -1206,6 +1249,30 @@ module FusionAuth
     #
     def retrieve_jwt_public_keys()
       start.uri('/api/jwt/public-key')
+           .get()
+           .go()
+    end
+
+    #
+    # Retrieves the key for the given Id.
+    #
+    # @param key_id [string] The Id of the key.
+    # @return [FusionAuth::ClientResponse] The ClientResponse object.
+    #
+    def retrieve_key(key_id)
+      start.uri('/api/key')
+           .url_segment(key_id)
+           .get()
+           .go()
+    end
+
+    #
+    # Retrieves all of the keys.
+    #
+    # @return [FusionAuth::ClientResponse] The ClientResponse object.
+    #
+    def retrieve_keys()
+      start.uri('/api/key')
            .get()
            .go()
     end
@@ -1878,6 +1945,21 @@ module FusionAuth
     #
     def update_integrations(request)
       start.uri('/api/integration')
+           .body_handler(FusionAuth::JSONBodyHandler.new(request))
+           .put()
+           .go()
+    end
+
+    #
+    # Updates the key with the given Id.
+    #
+    # @param key_id [string] The Id of the key to update.
+    # @param request [OpenStruct, Hash] The request that contains all of the new key information.
+    # @return [FusionAuth::ClientResponse] The ClientResponse object.
+    #
+    def update_key(key_id, request)
+      start.uri('/api/key')
+           .url_segment(key_id)
            .body_handler(FusionAuth::JSONBodyHandler.new(request))
            .put()
            .go()
